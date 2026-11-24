@@ -582,6 +582,36 @@
             <ul class="chip-row"><li>Vanilla JavaScript</li><li>Supabase (Postgres, Auth, Realtime)</li><li>Row Level Security</li><li>Cloudflare Workers</li><li>Durable Objects</li><li>Web Push</li><li>Razorpay</li><li>GitHub Actions</li><li>PWA</li><li class="shell-li"><button class="shell" type="button" data-shell="6" aria-label="Pick up a hidden shell" title="Click to pick up this shell"><svg><use href="#shell"/></svg></button></li></ul>
           </div>
 
+          <div class="card big">
+            <div class="big-head"><div><h3>AglaCare</h3><p class="kicker">A smart waiting room for Indian clinics, joined to the patient’s lab history.</p></div><a class="btn solid" href="https://agla-care-demo.pages.dev">Open the live demo</a></div>
+            <div class="tabs" data-tabs="sub">
+              <div class="tablist sub" role="tablist" aria-label="About AglaCare">
+                <button role="tab" id="a-o" aria-controls="pa-o" aria-selected="true">Overview</button>
+                <button role="tab" id="a-w" aria-controls="pa-w" aria-selected="false">What I owned</button>
+                <button role="tab" id="a-t" aria-controls="pa-t" aria-selected="false">Hardest trade-off</button>
+                <button role="tab" id="a-r" aria-controls="pa-r" aria-selected="false">Receipt</button>
+              </div>
+              <div class="panel" role="tabpanel" id="pa-o" aria-labelledby="a-o">
+                <div class="split">
+                  <div><p>In many Indian clinics, patients wait without knowing their turn, and the doctor starts each visit hunting through paper lab reports. AglaCare joins the queue to the clinical data, so by the time a patient is called in, the doctor’s card is ready.</p>
+                  <p>The front desk checks a patient in with a phone number. The patient gets a QR slip and a live place-in-line page, with no app to install. A nurse photographs an outside lab report, OCR reads the values, and a nurse confirms them before the doctor sees anything. The doctor’s screen then shows the latest values against their own targets, the trends, and what is overdue. It never suggests a diagnosis or a dose.</p><p>Everything in the demo is synthetic. No real patient data is in it.</p></div>
+                  <ul class="stats"><li><b data-to="402">402</b>automated tests</li><li><b>96.4%</b>OCR values correct, on synthetic reports</li><li><b data-to="4">4</b>staff roles, enforced in the database</li><li><b data-to="0">0</b>real patients</li></ul>
+                </div>
+              </div>
+              <div class="panel" role="tabpanel" id="pa-w" aria-labelledby="a-w" hidden>
+                <p>All of it, working alone, from the requirements to the deployed demo:</p>
+                <ul class="plain"><li>A written functional spec with requirement IDs, and a test for the acceptance criteria of every “must”</li><li>A Postgres schema with Row Level Security, so each role reads only what it should: the front desk can’t see lab values or report photos, and there is a test per role</li><li>The queue rules, written in SQL: on-time bookings keep their slot, walk-ins fill the gaps, and a booking more than 15 minutes late becomes a walk-in. Live updates run over Supabase Realtime</li><li>A small OCR service (PaddleOCR and a parser, in Docker) with a test-name lookup, unit conversion and photo straightening</li><li>An append-only audit log, email alerts that carry no clinical data, due-test reminders, and report upload for patients</li><li>The demo itself: a clickable guided tour, a database that resets itself every 10 minutes, and a deploy script that scans the build for secrets before it publishes</li></ul>
+              </div>
+              <div class="panel" role="tabpanel" id="pa-t" aria-labelledby="a-t" hidden>
+                <p>A wrong number on a clinician’s screen is worse than no number, and an OCR model can be confidently wrong. In my own tests it read 4 values wrongly out of 338, so I didn’t trust it enough to build a shortcut that lets good-looking results through on their own. Instead, nothing the OCR reads reaches the doctor until a nurse confirms it, and the database enforces that: only the confirm step can write a result. That costs the nurse a few seconds per report. In exchange, a misread can’t reach the card unseen.</p>
+              </div>
+              <div class="panel" role="tabpanel" id="pa-r" aria-labelledby="a-r" hidden>
+                <div class="r-body open"><b>What it measures</b>The OCR read 326 of 338 values correctly (96.4%) across 45 reports. Those reports are synthetic: I generated them and degraded them to look like photos. That makes 96.4% an upper bound, not the real accuracy. I haven’t yet measured it on real Indian lab reports, and my target there is at least 90% on 200 of them. The test count is the number of automated tests that pass, 402 plus 52 for the report parser.<b style="margin-top:.5rem">Where to check</b><a href="https://agla-care-demo.pages.dev">agla-care-demo.pages.dev</a> is live, with made-up patients, and it takes you through a guided tour. The reading step needs my OCR server. When it isn’t running, the two sample reports replay a result saved from a real run, and the screen says so. I’m glad to walk through the code in an interview.</div>
+              </div>
+            </div>
+            <ul class="chip-row"><li>React</li><li>TypeScript</li><li>Supabase (Postgres, Auth, Realtime)</li><li>Row Level Security</li><li>PaddleOCR</li><li>Python</li><li>FastAPI</li><li>Docker</li><li>Vitest</li><li>Cloudflare Pages</li></ul>
+          </div>
+
           <div class="cards three">
             <div class="card"><h4>K8s Agent</h4><p class="one">Ask a Kubernetes cluster questions in plain language.</p><p>It turns plain-language questions about a live cluster into structured queries through an LLM. When the API is unavailable, it falls back gracefully and logs what happened.</p><ul class="chip-row"><li>Python</li><li>Flask</li><li>Kubernetes</li><li>OpenAI API</li><li>Pydantic</li></ul><p class="more"><a href="https://github.com/trishabala/k8s-agent">View the code</a></p></div>
             <div class="card"><h4>Poultry Management System</h4><p class="one">Listening for sick chickens.</p><p>A low-cost IoT system with a sound-analysis model that spots respiratory illness in chickens from audio. It reached 98% recall, so sick birds can be separated early.</p><ul class="chip-row"><li>Arduino</li><li>TensorFlow</li><li>AWS</li><li>JavaScript</li></ul><p class="more"><a href="https://github.com/trishabala/Poultry-Management-System">View the code</a></p></div>
@@ -590,7 +620,6 @@
             <div class="card"><h4>Bill Reminder and Warranty Tracker</h4><p class="one">For people who’d rather not think about bills.</p><p>A prototype web app for elderly users that keeps bills and warranties in one place and sends email reminders. 80% of users said they were satisfied.</p><ul class="chip-row"><li>Flutter</li><li>SQL</li><li>Python</li></ul><p class="more"><a href="https://github.com/trishabala/Bill-Reminder-System">View the code</a></p></div>
             <div class="card"><h4>Eazy Learn</h4><p class="one">One place to find study resources.</p><p>A platform that organizes more than 50 learning resources by topic, difficulty and popularity. 65% of the students I surveyed said they spent less time searching.</p><ul class="chip-row"><li>HTML</li><li>CSS</li><li>Python</li><li>Flask</li></ul><p class="more"><a href="https://github.com/trishabala/EazyLearn">View the code</a></p></div>
           </div>
-          <div class="card soon"><h4>Waiting room and lab pipeline <span class="soon-tag">In progress</span></h4><p>Software that checks patients in and sends appointments through to lab orders. I’m building it on synthetic patient data and the FHIR standard, with a clinician review step and an audit log. A write-up and a live demo will go here when it’s ready.</p></div>
         </div>
 
         <!-- ================= PROOF ================= -->
@@ -598,6 +627,7 @@
           <p class="callout">Most of what’s here leaves a trail you can open. Here’s where to look.<button class="shell" type="button" data-shell="4" aria-label="Pick up a hidden shell" title="Click to pick up this shell"><svg><use href="#shell"/></svg></button></p>
           <div class="cards">
             <a class="card linkcard" href="https://splashboard.in"><h4>splashboard.in</h4><p>The live app from the meet. Open it and look around.</p></a>
+            <a class="card linkcard" href="https://agla-care-demo.pages.dev"><h4>agla-care-demo.pages.dev</h4><p>AglaCare, live with synthetic patients. Take the guided tour.</p></a>
             <a class="card linkcard" href="https://github.com/trishabala"><h4>GitHub: trishabala</h4><p>K8s Agent, Poultry Management System, Colour Analysis Tool, Movement Break Reminder and more.</p></a>
             <a class="card linkcard" href="https://www.linkedin.com/in/trishabalakrishnan/"><h4>LinkedIn</h4><p>Roles and dates for the work in the Experience tab.</p></a>
             <a class="card linkcard" href="Trisha_Balakrishnan_Resume_General.pdf"><h4>Resume (PDF)</h4><p>The source for every receipt on this page.</p></a>
