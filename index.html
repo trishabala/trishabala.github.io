@@ -551,7 +551,7 @@
         <!-- ================= BUILDS ================= -->
         <div class="panel" role="tabpanel" id="p-builds" aria-labelledby="t-builds" hidden>
           <div class="card big">
-            <div class="big-head"><div><h3>Splashboard</h3><p class="kicker">A swim meet’s results, live. Used by about 260 people.</p></div><span class="btnrow"><a class="btn solid" href="https://splashboard.in">Open splashboard.in</a> <a class="btn" href="https://github.com/trishabala/Splashboard">View the code</a></span></div>
+            <div class="big-head"><div><h3>Splashboard</h3><p class="kicker">A swim meet’s results, live. Used by about 260 people.</p></div><a class="btn solid" href="https://splashboard.in">Open splashboard.in</a></div>
             <div class="tabs" data-tabs="sub">
               <div class="tablist sub" role="tablist" aria-label="About Splashboard">
                 <button role="tab" id="s-o" aria-controls="ps-o" aria-selected="true">Overview</button>
@@ -576,7 +576,7 @@
                 <p>I built it on Supabase with only a thin Cloudflare Worker, so every access rule had to live in the database. I chose Postgres Row Level Security (10 core tables at launch, 37 now) over writing authorization code in a server. That gave up some flexibility, but it kept the rules in one place. A timer can’t approve a result, even if someone edits the client code or calls the API directly.</p>
               </div>
               <div class="panel" role="tabpanel" id="ps-r" aria-labelledby="s-r" hidden>
-                <div class="r-body open"><b>What it measures</b>People who used Splashboard at GNC Swim Fest 2026, and the live result sync I observed on the day.<b style="margin-top:.5rem">Where to check</b><a href="https://splashboard.in">splashboard.in</a> is live, the <a href="https://github.com/trishabala/Splashboard">code is public on GitHub</a>, and the resume lists it under projects.</div>
+                <div class="r-body open"><b>What it measures</b>People who used Splashboard at GNC Swim Fest 2026, and the live result sync I observed on the day.<b style="margin-top:.5rem">Where to check</b><a href="https://splashboard.in">splashboard.in</a> is live, and the resume lists it under projects. The code is private, and I’m glad to walk through it in an interview.</div>
               </div>
             </div>
             <ul class="chip-row"><li>Vanilla JavaScript</li><li>Supabase (Postgres, Auth, Realtime)</li><li>Row Level Security</li><li>Cloudflare Workers</li><li>Durable Objects</li><li>Web Push</li><li>Razorpay</li><li>GitHub Actions</li><li>PWA</li><li class="shell-li"><button class="shell" type="button" data-shell="6" aria-label="Pick up a hidden shell" title="Click to pick up this shell"><svg><use href="#shell"/></svg></button></li></ul>
@@ -598,7 +598,7 @@
           <p class="callout">Most of what’s here leaves a trail you can open. Here’s where to look.<button class="shell" type="button" data-shell="4" aria-label="Pick up a hidden shell" title="Click to pick up this shell"><svg><use href="#shell"/></svg></button></p>
           <div class="cards">
             <a class="card linkcard" href="https://splashboard.in"><h4>splashboard.in</h4><p>The live app from the meet. Open it and look around.</p></a>
-            <a class="card linkcard" href="https://github.com/trishabala"><h4>GitHub: trishabala</h4><p>Splashboard’s full source, K8s Agent, Poultry Management System, Colour Analysis Tool, Movement Break Reminder and more.</p></a>
+            <a class="card linkcard" href="https://github.com/trishabala"><h4>GitHub: trishabala</h4><p>K8s Agent, Poultry Management System, Colour Analysis Tool, Movement Break Reminder and more.</p></a>
             <a class="card linkcard" href="https://www.linkedin.com/in/trishabalakrishnan/"><h4>LinkedIn</h4><p>Roles and dates for the work in the Experience tab.</p></a>
             <a class="card linkcard" href="Trisha_Balakrishnan_Resume_General.pdf"><h4>Resume (PDF)</h4><p>The source for every receipt on this page.</p></a>
           </div>
