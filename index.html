@@ -321,6 +321,7 @@
   a.linkcard:hover h4 { text-decoration: underline; }
   .big-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
   .big-head h3 { font-family: var(--display); font-weight: 800; font-size: clamp(1.4rem, 3.4vw, 2rem); letter-spacing: -0.03em; margin: 0; color: var(--fg); }
+  .btnrow { display: inline-flex; gap: 0.6rem; flex-wrap: wrap; }
   .big-head .kicker { color: var(--accent); font-weight: 700; margin: 0.3rem 0 0; }
   .explore .btn.solid { color: #0c3547; }
   .split { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.6rem; align-items: start; }
@@ -550,7 +551,7 @@
         <!-- ================= BUILDS ================= -->
         <div class="panel" role="tabpanel" id="p-builds" aria-labelledby="t-builds" hidden>
           <div class="card big">
-            <div class="big-head"><div><h3>Splashboard</h3><p class="kicker">A swim meet’s results, live. Used by about 260 people.</p></div><a class="btn solid" href="https://splashboard.in">Open splashboard.in</a></div>
+            <div class="big-head"><div><h3>Splashboard</h3><p class="kicker">A swim meet’s results, live. Used by about 260 people.</p></div><span class="btnrow"><a class="btn solid" href="https://splashboard.in">Open splashboard.in</a> <a class="btn" href="https://github.com/trishabala/Splashboard">View the code</a></span></div>
             <div class="tabs" data-tabs="sub">
               <div class="tablist sub" role="tablist" aria-label="About Splashboard">
                 <button role="tab" id="s-o" aria-controls="ps-o" aria-selected="true">Overview</button>
@@ -561,22 +562,24 @@
               <div class="panel" role="tabpanel" id="ps-o" aria-labelledby="s-o">
                 <div class="split">
                   <div><p>Our local swim meet was still running its results on paper. As a former swimmer, I knew exactly where that breaks down, so I designed and built a live timing app, and it ran the whole meet.</p>
-                  <p>Several officials time races at once from their own phones. Results reach everyone in under a second, and each person sees and changes only what their role allows.</p></div>
+                  <p>Several officials time races at once from their own phones. Results reach everyone in under a second, and each person sees and changes only what their role allows.</p><p>Since the meet, I’ve kept building it into a multi-meet platform with swimmer and coach profiles, co-organisers, relay teams, certificates and entry payments.</p></div>
                   <ul class="stats"><li><b data-to="150" data-prefix="~">~150</b>swimmers</li><li><b data-to="100" data-prefix="~">~100</b>spectators</li><li><b data-to="10">10</b>officials</li><li><b>&lt; 1 s</b>for results to reach everyone</li></ul>
                 </div>
               </div>
               <div class="panel" role="tabpanel" id="ps-w" aria-labelledby="s-w" hidden>
-                <p>All of it:</p>
-                <ul class="plain"><li>The interface, built as a PWA</li><li>The PostgreSQL data model</li><li>The real-time sync between officials’ phones</li><li>The access rules, including role-scoped QR logins</li></ul>
+                <p>All of it, from the first commit. On meet day (June 21), it had:</p>
+                <ul class="plain"><li>The interface, a vanilla JavaScript PWA with an offline queue so timers keep working without signal</li><li>The PostgreSQL data model, with Row Level Security on 10 core tables and role-scoped QR logins by magic link</li><li>Live results over Supabase Realtime, plus a Cloudflare Durable Object that fans results out to spectators’ phones over WebSockets</li><li>Web Push notifications, signed with VAPID on the Web Crypto API</li><li>A GitHub Actions deploy to Cloudflare Workers, and I kept shipping fixes through the meet itself</li></ul>
+                <p style="margin-top:.9rem">Since then:</p>
+                <ul class="plain"><li>More than 40 SQL migrations, with Row Level Security now on 37 tables</li><li>Razorpay payments for entry fees, with signature-verified webhooks</li><li>A build step that minifies and content-hashes the assets</li></ul>
               </div>
               <div class="panel" role="tabpanel" id="ps-t" aria-labelledby="s-t" hidden>
-                <p>I built it on Supabase without a custom server, so every access rule had to live in the database. I chose Row Level Security across 8 tables over writing server code. That gave up some flexibility, but it kept the rules in one place, so a spectator’s device can’t write a result.</p>
+                <p>I built it on Supabase with only a thin Cloudflare Worker, so every access rule had to live in the database. I chose Postgres Row Level Security (10 core tables at launch, 37 now) over writing authorization code in a server. That gave up some flexibility, but it kept the rules in one place. A timer can’t approve a result, even if someone edits the client code or calls the API directly.</p>
               </div>
               <div class="panel" role="tabpanel" id="ps-r" aria-labelledby="s-r" hidden>
-                <div class="r-body open"><b>What it measures</b>People who used Splashboard at GNC Swim Fest 2026, and the live result sync I observed on the day.<b style="margin-top:.5rem">Where to check</b><a href="https://splashboard.in">splashboard.in</a> is live, and the resume lists it under projects.</div>
+                <div class="r-body open"><b>What it measures</b>People who used Splashboard at GNC Swim Fest 2026, and the live result sync I observed on the day.<b style="margin-top:.5rem">Where to check</b><a href="https://splashboard.in">splashboard.in</a> is live, the <a href="https://github.com/trishabala/Splashboard">code is public on GitHub</a>, and the resume lists it under projects.</div>
               </div>
             </div>
-            <ul class="chip-row"><li>Vanilla JavaScript</li><li>Supabase</li><li>PostgreSQL</li><li>Row Level Security</li><li>PWA</li><li class="shell-li"><button class="shell" type="button" data-shell="6" aria-label="Pick up a hidden shell" title="Click to pick up this shell"><svg><use href="#shell"/></svg></button></li></ul>
+            <ul class="chip-row"><li>Vanilla JavaScript</li><li>Supabase (Postgres, Auth, Realtime)</li><li>Row Level Security</li><li>Cloudflare Workers</li><li>Durable Objects</li><li>Web Push</li><li>Razorpay</li><li>GitHub Actions</li><li>PWA</li><li class="shell-li"><button class="shell" type="button" data-shell="6" aria-label="Pick up a hidden shell" title="Click to pick up this shell"><svg><use href="#shell"/></svg></button></li></ul>
           </div>
 
           <div class="cards three">
@@ -595,7 +598,7 @@
           <p class="callout">Most of what’s here leaves a trail you can open. Here’s where to look.<button class="shell" type="button" data-shell="4" aria-label="Pick up a hidden shell" title="Click to pick up this shell"><svg><use href="#shell"/></svg></button></p>
           <div class="cards">
             <a class="card linkcard" href="https://splashboard.in"><h4>splashboard.in</h4><p>The live app from the meet. Open it and look around.</p></a>
-            <a class="card linkcard" href="https://github.com/trishabala"><h4>GitHub: trishabala</h4><p>K8s Agent, Poultry Management System, Colour Analysis Tool, Movement Break Reminder and more.</p></a>
+            <a class="card linkcard" href="https://github.com/trishabala"><h4>GitHub: trishabala</h4><p>Splashboard’s full source, K8s Agent, Poultry Management System, Colour Analysis Tool, Movement Break Reminder and more.</p></a>
             <a class="card linkcard" href="https://www.linkedin.com/in/trishabalakrishnan/"><h4>LinkedIn</h4><p>Roles and dates for the work in the Experience tab.</p></a>
             <a class="card linkcard" href="Trisha_Balakrishnan_Resume_General.pdf"><h4>Resume (PDF)</h4><p>The source for every receipt on this page.</p></a>
           </div>
@@ -624,10 +627,10 @@
             <div class="card wide"><h4>The core stack: what most teams ask for</h4><ul class="chip-row hot"><li>Python</li><li>TypeScript</li><li>React</li><li>Next.js</li><li>FastAPI</li><li>Node.js</li><li>PostgreSQL</li><li>MongoDB</li><li>REST APIs</li><li>Docker</li><li>AWS</li><li>CI/CD</li><li>LLM agents and RAG</li><li>pytest and Vitest</li><li>Claude Code and Cursor</li></ul></div>
             <div class="card"><h4>Languages</h4><ul class="chip-row"><li>Python</li><li>TypeScript</li><li>JavaScript</li><li>Java</li><li>C</li><li>C++</li><li>SQL</li><li>Bash</li></ul></div>
             <div class="card"><h4>AI systems</h4><ul class="chip-row"><li>LLM agents</li><li>Tool calling</li><li>RAG</li><li>LangChain</li><li>CrewAI</li><li>LLM evaluation</li><li>Claude</li><li>Gemini</li><li>OpenAI API</li></ul></div>
-            <div class="card"><h4>Backend and data</h4><ul class="chip-row"><li>FastAPI</li><li>Flask</li><li>Spring Boot</li><li>Node.js</li><li>PostgreSQL</li><li>MongoDB</li><li>Supabase</li><li>Row Level Security</li><li>REST APIs</li></ul></div>
+            <div class="card"><h4>Backend and data</h4><ul class="chip-row"><li>FastAPI</li><li>Flask</li><li>Spring Boot</li><li>Node.js</li><li>PostgreSQL</li><li>MongoDB</li><li>Supabase</li><li>Row Level Security</li><li>REST APIs</li><li>WebSockets</li><li>Web Push</li></ul></div>
             <div class="card"><h4>Frontend</h4><ul class="chip-row"><li>React</li><li>Next.js</li><li>HTML and CSS</li><li>PWA</li><li>Qt and QML</li></ul></div>
             <div class="card"><h4>Hardware and vision</h4><ul class="chip-row"><li>ROS2</li><li>Arduino</li><li>EtherCAT</li><li>Embedded Linux</li><li>OpenCV</li><li>YOLOv8</li><li>MediaPipe</li><li>TensorFlow</li><li>PyTorch</li></ul></div>
-            <div class="card"><h4>Testing and delivery</h4><ul class="chip-row"><li>pytest</li><li>Vitest</li><li>Playwright</li><li>Git</li><li>Docker</li><li>Kubernetes</li><li>AWS</li><li>CI/CD</li></ul></div>
+            <div class="card"><h4>Testing and delivery</h4><ul class="chip-row"><li>pytest</li><li>Vitest</li><li>Playwright</li><li>Git</li><li>Docker</li><li>Kubernetes</li><li>AWS</li><li>Cloudflare Workers</li><li>GitHub Actions</li><li>CI/CD</li></ul></div>
           </div>
         </div>
       </div>
